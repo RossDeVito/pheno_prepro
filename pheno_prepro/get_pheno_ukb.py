@@ -11,7 +11,20 @@ import dxdata
 from util import field_names_for_ids
 
 
-def get_pheno_df(participant_db, pheno, excluded_samples=None):
+# def get_pheno_fields(pheno):
+# 	if pheno == 'ldl':
+# 		pheno_fields = [
+# 			'30780', # LDL direct
+# 			'6153',  # medication  (female) (1 = Cholesterol lowering medication)
+# 			'6177',  # medication  (male)    
+# 		]
+# 	else:
+# 		raise ValueError('Invalid phenotype: {}'.format(pheno))
+	
+# 	return pheno_fields
+
+
+def get_pheno_df(participant_db, engine, pheno, excluded_samples=None):
 	"""Retrieves phenotype data from UK Biobank for a given phenotype.
 	Returns as Pandas DataFrame.
 
@@ -44,7 +57,7 @@ def get_pheno_df(participant_db, pheno, excluded_samples=None):
 	df = participant_db.retrieve_fields(
 		field_names,
 		coding_values='replace',
-		engine=dxdata.connect(),
+		engine=engine,
 	)
 	df = df.toPandas()
 
@@ -160,7 +173,12 @@ if __name__ == '__main__':
 		excluded_samples = None
 
 	# Get phenotype data
-	df = get_pheno_df(participant_db, args.phenotype, excluded_samples)
+	df = get_pheno_df(
+		participant_db,
+		dxdata.connect(),
+		args.phenotype, 
+		excluded_samples
+	)
 
 	# Save to file
 	if args.output is None:
