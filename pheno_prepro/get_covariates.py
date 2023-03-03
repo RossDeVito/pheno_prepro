@@ -3,6 +3,8 @@
 import argparse
 import os
 
+import pandas as pd
+
 import dxpy
 import dxdata
 
@@ -68,3 +70,14 @@ if __name__ == '__main__':
 		engine=dxdata.connect(),
 	)
 	df = df.toPandas()
+
+	# Optional filtering of excluded samples
+	args.excluded_samples = '/mnt/project/pheno_data/excluded_samples.tsv'
+	if args.excluded_samples is not None:
+		exclude = pd.read_csv(args.excluded_samples, sep='\t', header=None)
+		exclude = set(exclude[0].unique())
+
+		df = df.loc[~df['eid'].isin(exclude)]
+
+	# Save covariates
+	df.to_csv(args.output, sep='\t', index=False)
