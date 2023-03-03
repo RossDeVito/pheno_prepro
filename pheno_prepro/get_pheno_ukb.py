@@ -24,7 +24,7 @@ from util import field_names_for_ids
 # 	return pheno_fields
 
 
-def get_pheno_df(participant_db, engine, pheno, excluded_samples=None):
+def get_pheno_df(participant_db, pheno, excluded_samples=None):
 	"""Retrieves phenotype data from UK Biobank for a given phenotype.
 	Returns as Pandas DataFrame.
 
@@ -55,9 +55,9 @@ def get_pheno_df(participant_db, engine, pheno, excluded_samples=None):
 
 	# Connect to Spark, retrieve data, and convert to DataFrame
 	df = participant_db.retrieve_fields(
-		field_names,
+		names=field_names,
 		coding_values='replace',
-		engine=engine,
+		engine=dxdata.connect(),
 	)
 	df = df.toPandas()
 
@@ -173,11 +173,8 @@ if __name__ == '__main__':
 		excluded_samples = None
 
 	# Get phenotype data
-	e = dxdata.connect()
-	print(e)
 	df = get_pheno_df(
 		participant_db,
-		e,
 		args.phenotype, 
 		excluded_samples
 	)
