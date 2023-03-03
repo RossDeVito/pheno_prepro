@@ -173,9 +173,11 @@ if __name__ == '__main__':
 		excluded_samples = None
 
 	# Get phenotype data
+	e = dxdata.connect()
+	print(e)
 	df = get_pheno_df(
 		participant_db,
-		dxdata.connect(),
+		e,
 		args.phenotype, 
 		excluded_samples
 	)
