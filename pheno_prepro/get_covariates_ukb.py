@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import re
 
 import pandas as pd
 
@@ -78,6 +79,22 @@ if __name__ == '__main__':
 		exclude = set(exclude[0].unique())
 
 		df = df.loc[~df['eid'].isin(exclude)]
+
+	# Rename columns
+	df = df.rename(columns=lambda x: re.sub('p22009_a','pc',x))
+	df = df.rename(columns={
+		'eid':'s',
+		'p31': 'is_male',
+		'p21022': 'age',
+		'p22006': 'white_british',
+	})
+
+	# Transform features
+	df['is_male'] = (df['is_male'] == 'Male').astype(int)
+
+	df['white_british'] = (df['white_british'] == 'Caucasian').astype(int)
+
+	df['s'] = df['s'].astype(int)
 
 	# Save covariates
 	df.to_csv(args.output, sep='\t', index=False)
