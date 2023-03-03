@@ -154,7 +154,7 @@ if __name__ == '__main__':
 		excluded_samples = set(
 			pd.read_csv(
 				args.excluded_samples, sep='\t', header=None
-			).unique()
+			)[0].unique()
 		)
 	else:
 		excluded_samples = None
