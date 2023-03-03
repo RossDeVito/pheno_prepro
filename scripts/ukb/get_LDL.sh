@@ -5,4 +5,4 @@ python3 ../../pheno_prepro/get_pheno_ukb.py \
 	-p ldl
 
 dx upload ldl.tsv \
-	--path /pheno_data/phenotypes/ldl_v0.tsv
+	--path /pheno_data/phenotypes/LDL/ldl_v0.tsv
