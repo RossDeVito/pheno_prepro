@@ -88,6 +88,7 @@ if __name__ == '__main__':
 		'p21022': 'age',
 		'p22006': 'white_british',
 	})
+	print(df.head())
 
 	# Transform features
 	df['is_male'] = (df['is_male'] == 'Male').astype(int)
@@ -96,5 +97,10 @@ if __name__ == '__main__':
 
 	df['s'] = df['s'].astype(int)
 
+	print(df.head())
+
 	# Save covariates
 	df.to_csv(args.output, sep='\t', index=False)
+
+	# Count number of samples with missing values
+	print(f"Number of samples with missing values: {df.isnull().any(axis=1).sum()}")
