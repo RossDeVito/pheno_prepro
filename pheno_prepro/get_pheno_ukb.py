@@ -79,10 +79,14 @@ def get_pheno_df(participant_db, pheno, excluded_samples=None):
 		df.drop(['LDL_0', 'LDL_1'], axis=1, inplace=True)
 		df.dropna(subset=['LDL'], inplace=True)
 
+		df['p6153_i0'] = df['p6153_i0'].astype(str)
+		df['p6177_i0'] = df['p6177_i0'].astype(str)
+
 		# Add new cholesterol_med column (1 = Cholesterol lowering medication)
 		df['cholesterol_med'] = (
 			df['p6153_i0'].str.contains(
 				'Cholesterol lowering medication',
+				case=False,
 				na=False
 			) |
 			df['p6177_i0'].str.contains(
@@ -186,3 +190,6 @@ if __name__ == '__main__':
 		args.output = '{}.tsv'.format(args.phenotype)
 	
 	df.to_csv(args.output, sep='\t', index=False)
+
+	# Print Count of people with meds
+	print(df.cholesterol_med.value_counts())
