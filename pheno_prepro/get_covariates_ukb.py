@@ -72,8 +72,8 @@ if __name__ == '__main__':
 	df = df.toPandas()
 
 	# Optional filtering of excluded samples
-	args.excluded_samples = '/mnt/project/pheno_data/excluded_samples.tsv'
 	if args.excluded_samples is not None:
+		print("Filtering out excluded samples...")
 		exclude = pd.read_csv(args.excluded_samples, sep='\t', header=None)
 		exclude = set(exclude[0].unique())
 
