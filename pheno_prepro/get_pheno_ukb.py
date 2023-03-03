@@ -100,6 +100,8 @@ def get_pheno_df(participant_db, pheno, excluded_samples=None):
 			df.loc[df['cholesterol_med'] == 1, 'LDL'] / 0.7
 		)
 
+		print(df.cholesterol_med.value_counts())
+
 	return df
 
 
